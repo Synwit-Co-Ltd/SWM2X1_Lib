@@ -34,17 +34,17 @@ void RTC_Handler(void)
 {
 	RTC_DateTime dateTime;
 	
-	if(RTC_IntSecondStat(RTC))
+	if(RTC_INTStat(RTC, RTC_IT_SECOND))
 	{
-		RTC_IntSecondClr(RTC);
+		RTC_INTClr(RTC, RTC_IT_SECOND);
 		
 		RTC_GetDateTime(RTC, &dateTime);
 		printf("Now Time: %d Minute %d Second\r\n", dateTime.Minute, dateTime.Second);
 	}
 	
-	if(RTC_IntMinuteStat(RTC))
+	if(RTC_INTStat(RTC, RTC_IT_MINUTE))
 	{
-		RTC_IntMinuteClr(RTC);
+		RTC_INTClr(RTC, RTC_IT_MINUTE);
 		
 		RTC_GetDateTime(RTC, &dateTime);
 		printf("Now Time: %d Minute %d Second\r\n", dateTime.Minute, dateTime.Second);

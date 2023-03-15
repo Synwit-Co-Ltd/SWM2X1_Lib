@@ -63,17 +63,17 @@ void RTC_Handler(void)
 {
 	RTC_DateTime dateTime;
 	
-	if(RTC_IntSecondStat(RTC))
+	if(RTC_INTStat(RTC, RTC_IT_SECOND))
 	{
-		RTC_IntSecondClr(RTC);
+		RTC_INTClr(RTC, RTC_IT_SECOND);
 		
 		F_Second = 1;
 	}
 	
-	if(RTC_IntAlarmStat(RTC))
+	if(RTC_INTStat(RTC, RTC_IT_ALARM))
 	{
 		/* Alarm中断会持续1秒钟，可关掉Alarm中断、或更新定时值解决此问题 */
-		RTC_IntAlarmClr(RTC);
+		RTC_INTClr(RTC, RTC_IT_ALARM);
 		
 		RTC_GetDateTime(RTC, &dateTime);
 		if(dateTime.Second + 5 < 60)
