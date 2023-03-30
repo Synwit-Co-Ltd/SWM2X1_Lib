@@ -1,10 +1,10 @@
 #include "SWM2X1.h"
 
 
-/* 测试条件：SWM241 <==CAN_RX/TX==> CAN 收发器（如 TJA1050）<==CAN_H/L==> CAN 分析仪
+/* 测试条件：SWM211 <==CAN_RX/TX==> CAN 收发器（如 TJA1050）<==CAN_H/L==> CAN 分析仪
  * 错误处理演示：
  *	1、将 CAN 收发器与 CAN 分析仪断开，触发 ACK 错误，CAN->TXERR 从 0 递增到 128，然后保持不变
- *	2、将 SWM241 与 CAN 收发器断开，触发位错误，CAN->TXERR 继续递增到 255，触发 Bus Off，CAN->CR.RST 自动置 1，CAN 模块处于复位状态
+ *	2、将 SWM211 与 CAN 收发器断开，触发位错误，CAN->TXERR 继续递增到 255，触发 Bus Off，CAN->CR.RST 自动置 1，CAN 模块处于复位状态
  *	3、ISR 中在检测到 Bus Off 后执行 CAN_Open(CAN0) 使 CAN 模块退出复位状态，此时将上面断开的连接恢复，CAN->TXERR 将逐渐递减到0，CAN 模块恢复正常工作
 */
 
