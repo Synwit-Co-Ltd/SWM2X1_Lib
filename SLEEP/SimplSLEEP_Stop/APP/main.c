@@ -1,6 +1,10 @@
 #include "SWM2X1.h"
 
 
+/* 注意：SWM201 有 STOP 模式，SWM211 没有 STOP 模式
+ */
+
+
 void SerialInit(void);
 
 int main(void)
