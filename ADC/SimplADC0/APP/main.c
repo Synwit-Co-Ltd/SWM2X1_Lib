@@ -1,8 +1,5 @@
 #include "SWM2X1.h"
 
-/* 注意：如果使用的 211 芯片是 F 版本的，请在 
- * Option for Target 'SWM211' 配置窗口 C/C++ 配置页中，添加宏定义 VERSION_F
- */
 
 void SerialInit(void);
 

@@ -21,6 +21,8 @@
 #include "SWM2X1.h"
 #include "SWM2X1_adc.h"
 
+static uint32_t VERSION_F = 0;	// 是否为 F 版芯片
+
 static uint32_t VDD3V3 = 0;		// 是否芯片使用3.3V供电
 static uint32_t ADC3V6 = 0;		// 是否使用内部3.6V基准
 static uint32_t ADC_K, ADC_Offset;
@@ -38,8 +40,11 @@ void ADC_Init(ADC_TypeDef * ADCx, ADC_InitStructure * initStruct)
 {
 	uint8_t trig_src;
 	
-#if defined(CHIP_SWM211) && defined(VERSION_F)
-	if(initStruct->ref_src & 0x40)
+	if((SYS->CHIPID[0] >> 24) == 0xD3)
+		VERSION_F = 1;
+	
+#if defined(CHIP_SWM211)
+	if(VERSION_F && (initStruct->ref_src & 0x40))
 	{
 		initStruct->ref_src &= 0x3F;
 		
@@ -81,11 +86,14 @@ void ADC_Init(ADC_TypeDef * ADCx, ADC_InitStructure * initStruct)
 		ADC_Offset = (SYS->BACKUP[2] >> 4) & 0xFFFF;
 		ADC_K = ((SYS->BACKUP[2] >> 4) >> 16);
 		
-		#if defined(VERSION_F)
-		#else
-		ADCx->CALIBSET = (ADC_K << ADC_CALIBSET_K_Pos) | (ADC_Offset << ADC_CALIBSET_OFFSET_Pos);
-		ADCx->CALIBEN = (1 << ADC_CALIBEN_K_Pos) | (1 << ADC_CALIBEN_OFFSET_Pos);
-		#endif
+		if(VERSION_F)
+		{
+		}
+		else
+		{
+			ADCx->CALIBSET = (ADC_K << ADC_CALIBSET_K_Pos) | (ADC_Offset << ADC_CALIBSET_OFFSET_Pos);
+			ADCx->CALIBEN = (1 << ADC_CALIBEN_K_Pos) | (1 << ADC_CALIBEN_OFFSET_Pos);
+		}
 #endif
 		
 		ADCx->CTRL3 |= ((initStruct->ref_src & 0xF) << ADC_CTRL3_IREFSEL_Pos);
@@ -96,21 +104,24 @@ void ADC_Init(ADC_TypeDef * ADCx, ADC_InitStructure * initStruct)
 		ADCx->CALIBSET = *((volatile uint32_t *) 0x40000098);
 		ADCx->CALIBEN = (1 << ADC_CALIBEN_K_Pos) | (1 << ADC_CALIBEN_OFFSET_Pos);
 #elif defined(CHIP_SWM211)
-		#if defined(VERSION_F)
-		if(VDD3V3)	// 芯片 3.3V 供电
+		if(VERSION_F)
 		{
-			ADC_Offset = SYS->CHIPID[0] & 0xFFF;
-			ADC_K = (SYS->CHIPID[0] >> 12) & 0xFFF;
+			if(VDD3V3)	// 芯片 3.3V 供电
+			{
+				ADC_Offset = SYS->CHIPID[0] & 0xFFF;
+				ADC_K = (SYS->CHIPID[0] >> 12) & 0xFFF;
+			}
+			else		// 芯片 5V 供电
+			{
+				ADC_Offset = SYS->BACKUP[1] & 0xFFFF;
+				ADC_K = SYS->BACKUP[1] >> 16;
+			}
 		}
-		else		// 芯片 5V 供电
+		else
 		{
-			ADC_Offset = SYS->BACKUP[1] & 0xFFFF;
-			ADC_K = SYS->BACKUP[1] >> 16;
+			ADCx->CALIBSET = SYS->BACKUP[1];
+			ADCx->CALIBEN = (1 << ADC_CALIBEN_K_Pos) | (1 << ADC_CALIBEN_OFFSET_Pos);
 		}
-		#else
-		ADCx->CALIBSET = SYS->BACKUP[1];
-		ADCx->CALIBEN = (1 << ADC_CALIBEN_K_Pos) | (1 << ADC_CALIBEN_OFFSET_Pos);
-		#endif
 #endif
 
 #if defined(CHIP_SWM201)
@@ -179,8 +190,8 @@ void ADC_Init(ADC_TypeDef * ADCx, ADC_InitStructure * initStruct)
 				(((initStruct->OVF_IEn & ADC_CH10) ? 1 : 0) << ADC_IE_CH10OVF_Pos) |
 				(((initStruct->OVF_IEn & ADC_CH11) ? 1 : 0) << ADC_IE_CH11OVF_Pos);
 	
-#if defined(CHIP_SWM211) && defined(VERSION_F)
-	if(VDD3V3)
+#if defined(CHIP_SWM211)
+	if(VERSION_F && VDD3V3)
 	{
 		ADCx->CTRL3 &= ~(ADC_CTRL3_REFSEL_Msk | ADC_CTRL3_IREFSEL_Msk);
 		ADCx->CTRL3 |=  (((1 << 1) | 0) << ADC_CTRL3_REFSEL_Pos) |
@@ -312,16 +323,19 @@ uint32_t ADC_Read(ADC_TypeDef * ADCx, uint32_t chn)
 	}
 #endif
 
-#if defined(CHIP_SWM211) && defined(VERSION_F)
-	if(dat < ADC_Offset)
+#if defined(CHIP_SWM211)
+	if(VERSION_F)
 	{
-		dat = 0;
-	}
-	else
-	{
-		dat = ((dat - ADC_Offset) * ADC_K) / 1000;
-		if(dat > 4095)
-			dat = 4095;
+		if(dat < ADC_Offset)
+		{
+			dat = 0;
+		}
+		else
+		{
+			dat = ((dat - ADC_Offset) * ADC_K) / 1000;
+			if(dat > 4095)
+				dat = 4095;
+		}
 	}
 #endif
 
