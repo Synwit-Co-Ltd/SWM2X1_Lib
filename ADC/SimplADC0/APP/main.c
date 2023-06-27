@@ -1,5 +1,9 @@
 #include "SWM2X1.h"
 
+/* 注意：如果使用的 211 芯片是 F 版本的，请在 
+ * Option for Target 'SWM211' 配置窗口 C/C++ 配置页中，添加宏定义 VERSION_F
+ */
+
 void SerialInit(void);
 
 int main(void)
@@ -52,7 +56,7 @@ int main(void)
 	ADC_initStruct.clk_src = ADC_CLKSRC_HRC_DIV2;
 	ADC_initStruct.clk_div = 6;
 #endif
-	ADC_initStruct.ref_src = ADC_REFSRC_VDD;
+	ADC_initStruct.ref_src = ADC_REFSRC_VDD3V3;
 	ADC_initStruct.channels = ADC_CH0;
 	ADC_initStruct.samplAvg = ADC_AVG_SAMPLE1;
 	ADC_initStruct.trig_src = ADC_TRIGGER_SW;

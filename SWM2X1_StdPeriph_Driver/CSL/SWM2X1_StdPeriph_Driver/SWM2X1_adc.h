@@ -77,9 +77,11 @@ typedef struct {
 #endif
 
 
-#define ADC_REFSRC_VREFP		((3 << 4) | 0)	//Vrefp 引脚
-#define ADC_REFSRC_VDD			((3 << 4) | 1)	//芯片VDD
-#define ADC_REFSRC_3V6			((0 << 4) | 7)	//内部3.6V
+#define ADC_REFSRC_VREFP3V3		((7 << 4) | 0)	//芯片 3.3V 供电时：Vrefp 引脚，只能用于 F 版芯片
+#define ADC_REFSRC_VDD3V3		((7 << 4) | 1)	//芯片 3.3V 供电时：芯片VDD，只能用于 F 版芯片
+#define ADC_REFSRC_VREFP5V		((3 << 4) | 0)	//芯片 5V   供电时：Vrefp 引脚
+#define ADC_REFSRC_VDD5V		((3 << 4) | 1)	//芯片 5V   供电时：芯片VDD
+#define ADC_REFSRC_3V6			((0 << 4) | 7)	//芯片 5V   供电时：内部3.6V
 
 #define ADC_AVG_SAMPLE1			0	
 #define ADC_AVG_SAMPLE2			1	//一次启动连续采样、转换2次，并计算两次结果的平均值作为转换结果
