@@ -191,6 +191,9 @@ void ADC_Init(ADC_TypeDef * ADCx, ADC_InitStructure * initStruct)
 				(((initStruct->OVF_IEn & ADC_CH11) ? 1 : 0) << ADC_IE_CH11OVF_Pos);
 	
 #if defined(CHIP_SWM211)
+	if(VERSION_F)
+		ADC_K = ADC_K *  1.024;
+	
 	if(VERSION_F && VDD3V3)
 	{
 		ADCx->CTRL3 &= ~(ADC_CTRL3_REFSEL_Msk | ADC_CTRL3_IREFSEL_Msk);
@@ -332,7 +335,7 @@ uint32_t ADC_Read(ADC_TypeDef * ADCx, uint32_t chn)
 		}
 		else
 		{
-			dat = ((dat - ADC_Offset) * ADC_K) / 1000;
+			dat = ((dat - ADC_Offset) * ADC_K) >> 10;
 			if(dat > 4095)
 				dat = 4095;
 		}
