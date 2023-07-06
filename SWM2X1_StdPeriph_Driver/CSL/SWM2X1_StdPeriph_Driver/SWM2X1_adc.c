@@ -192,7 +192,7 @@ void ADC_Init(ADC_TypeDef * ADCx, ADC_InitStructure * initStruct)
 	
 #if defined(CHIP_SWM211)
 	if(VERSION_F)
-		ADC_K = ADC_K *  1.024;
+		ADC_K = ADC_K * 1.024;
 	
 	if(VERSION_F && VDD3V3)
 	{
