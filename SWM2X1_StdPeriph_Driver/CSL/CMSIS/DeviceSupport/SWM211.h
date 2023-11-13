@@ -65,6 +65,7 @@ typedef enum IRQn
 #endif
 
 #include <stdio.h>
+#include <stdbool.h>
 #include "core_cm0.h"				   /* Cortex-M0 processor and core peripherals		     */
 #include "system_SWM211.h"
 
