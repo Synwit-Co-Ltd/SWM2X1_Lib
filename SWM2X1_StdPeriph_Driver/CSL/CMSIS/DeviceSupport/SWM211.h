@@ -409,7 +409,7 @@ typedef struct {
 #define SYS_ACMPCR_CMP2ON_Msk		(0x01 << SYS_ACMPCR_CMP2ON_Pos)
 #define SYS_ACMPCR_CMP3ON_Pos		3
 #define SYS_ACMPCR_CMP3ON_Msk		(0x01 << SYS_ACMPCR_CMP3ON_Pos)
-#define SYS_ACMPCR_CMP0HYS_Pos		8		//ACMP0 ³ÙÖÍµçÑ¹£¬0 0mV   1 10mV   2 30mV   3 50mV
+#define SYS_ACMPCR_CMP0HYS_Pos		8		//ACMP0 ³ÙÖÍ¿ªÆô£¬1 ¿ªÆô³ÙÖÍ   0 ¹Ø±Õ³ÙÖÍ
 #define SYS_ACMPCR_CMP0HYS_Msk		(0x03 << SYS_ACMPCR_CMP0HYS_Pos)
 #define SYS_ACMPCR_CMP1HYS_Pos		10
 #define SYS_ACMPCR_CMP1HYS_Msk		(0x03 << SYS_ACMPCR_CMP1HYS_Pos)
