@@ -54,19 +54,19 @@ void RTC_Handler(void)
 {
 	RTC_DateTime dateTime;
 	
-	if(RTC_IntSecondStat(RTC))
+	if(RTC_INTStat(RTC, RTC_IT_SECOND))
 	{
-		RTC_IntSecondClr(RTC);
+		RTC_INTClr(RTC, RTC_IT_SECOND);
 	}
 	
-	if(RTC_IntMinuteStat(RTC))
+	if(RTC_INTStat(RTC, RTC_IT_MINUTE))
 	{
-		RTC_IntMinuteClr(RTC);
+		RTC_INTClr(RTC, RTC_IT_MINUTE);
 	}
 	
-	if(RTC_IntAlarmStat(RTC))
+	if(RTC_INTStat(RTC, RTC_IT_ALARM))
 	{
-		RTC_IntAlarmClr(RTC);
+		RTC_INTClr(RTC, RTC_IT_ALARM);
 		
 		RTC_GetDateTime(RTC, &dateTime);
 		if(dateTime.Second < 55)
