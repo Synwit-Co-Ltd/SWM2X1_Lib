@@ -33,7 +33,7 @@
 #define SYS_CLK_PLL_DIV8	5		//锁相环输出 8分频
 #define SYS_CLK_32KHz		6		//内部低频32KHz RC  振荡器
 
-#define SYS_CLK   SYS_CLK_12MHz
+#define SYS_CLK   SYS_CLK_PLL
 
 
 #define __HSI		(12000000UL)		//高速内部时钟
@@ -46,7 +46,7 @@
  * VCO输出频率 = PLL输入时钟 / INDIV * 4 * FBDIV
  * PLL输出频率 = PLL输入时钟 / INDIV * 4 * FBDIV / OUTDIV = VCO输出频率 / OUTDIV         
  *****************************************************************************************/ 
-#define SYS_PLL_SRC   	SYS_CLK_XTAL	//可取值SYS_CLK_12MHz、SYS_CLK_XTAL
+#define SYS_PLL_SRC   	SYS_CLK_12MHz	//可取值SYS_CLK_12MHz、SYS_CLK_XTAL
 
 #define PLL_IN_DIV		3
 
