@@ -636,7 +636,7 @@
                 </option>
                 <option>
                     <name>OOCOutputFile</name>
-                    <state>SimplUART_DMA_RX.srec</state>
+                    <state>SimplUART_DMA.srec</state>
                 </option>
                 <option>
                     <name>OOCCommandLineProducer</name>
@@ -691,7 +691,7 @@
                 </option>
                 <option>
                     <name>IlinkOutputFile</name>
-                    <state>SimplUART_DMA_RX.out</state>
+                    <state>SimplUART_DMA.out</state>
                 </option>
                 <option>
                     <name>IlinkDebugInfoEnable</name>
@@ -1650,7 +1650,7 @@
                 </option>
                 <option>
                     <name>OOCOutputFile</name>
-                    <state>SimplUART_DMA_RX.srec</state>
+                    <state>SimplUART_DMA.srec</state>
                 </option>
                 <option>
                     <name>OOCCommandLineProducer</name>
@@ -1705,7 +1705,7 @@
                 </option>
                 <option>
                     <name>IlinkOutputFile</name>
-                    <state>SimplUART_DMA_RX.out</state>
+                    <state>SimplUART_DMA.out</state>
                 </option>
                 <option>
                     <name>IlinkDebugInfoEnable</name>

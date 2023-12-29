@@ -2,7 +2,7 @@
 
 <workspace>
   <project>
-    <path>$WS_DIR$\SimplUART_DMA_TX.ewp</path>
+    <path>$WS_DIR$\SimplUART_DMA.ewp</path>
   </project>
   <batchBuild/>
 </workspace>

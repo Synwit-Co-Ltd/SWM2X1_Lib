@@ -583,7 +583,7 @@
         <TargetCommonOption>
           <Device>SWM211x8</Device>
           <Vendor>Synwit</Vendor>
-          <PackID>Synwit.SWM32_DFP.2.0.0</PackID>
+          <PackID>Synwit.SWM32_DFP.2.0.8</PackID>
           <PackURL>http://www.synwit.com/pack</PackURL>
           <Cpu>CLOCK(12000000) CPUTYPE("Cortex-M0") ESEL ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
@@ -616,7 +616,7 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>.\out\</OutputDirectory>
-          <OutputName>SimplUART_DMA_RX</OutputName>
+          <OutputName>SimplUART_DMA</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>0</CreateHexFile>
@@ -892,7 +892,7 @@
             <wLevel>0</wLevel>
             <uThumb>0</uThumb>
             <uSurpInc>0</uSurpInc>
-            <uC99>0</uC99>
+            <uC99>1</uC99>
             <uGnu>0</uGnu>
             <useXO>0</useXO>
             <v6Lang>1</v6Lang>
@@ -904,7 +904,7 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>CHIP_SWM211 </Define>
+              <Define>CHIP_SWM211</Define>
               <Undefine></Undefine>
               <IncludePath>..\..\SWM2X1_StdPeriph_Driver\CSL\CMSIS\CoreSupport;..\..\SWM2X1_StdPeriph_Driver\CSL\CMSIS\DeviceSupport;..\..\SWM2X1_StdPeriph_Driver\CSL\SWM2X1_StdPeriph_Driver</IncludePath>
             </VariousControls>
