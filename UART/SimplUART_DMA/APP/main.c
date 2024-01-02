@@ -80,9 +80,9 @@ int main(void)
 		{
 			for(int j = 0; j < strlen(TX_String[i]); j++)
 			{
-				UART_WriteByte(UART0, TX_String[i][j]);
+				UART_WriteByte(UART1, TX_String[i][j]);
 				
-				while(UART_IsTXBusy(UART0));
+				while(UART_IsTXBusy(UART1));
 			}
 			
 			for(int j = 0; j < SystemCoreClock/8; j++) __NOP();
