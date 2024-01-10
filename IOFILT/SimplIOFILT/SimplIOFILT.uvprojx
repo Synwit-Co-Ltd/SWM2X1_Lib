@@ -10,12 +10,13 @@
       <TargetName>SWM201</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
+      <pCCUsed>5060960::V5.06 update 7 (build 960)::.\ARMCC</pCCUsed>
       <uAC6>0</uAC6>
       <TargetOption>
         <TargetCommonOption>
           <Device>SWM201x6</Device>
           <Vendor>Synwit</Vendor>
-          <PackID>Synwit.SWM32_DFP.2.0.0</PackID>
+          <PackID>Synwit.SWM32_DFP.2.0.8</PackID>
           <PackURL>http://www.synwit.com/pack</PackURL>
           <Cpu>CLOCK(12000000) CPUTYPE("Cortex-M0") ESEL ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
@@ -324,7 +325,7 @@
             <wLevel>0</wLevel>
             <uThumb>0</uThumb>
             <uSurpInc>0</uSurpInc>
-            <uC99>0</uC99>
+            <uC99>1</uC99>
             <uGnu>0</uGnu>
             <useXO>0</useXO>
             <v6Lang>1</v6Lang>
@@ -585,7 +586,7 @@
         <TargetCommonOption>
           <Device>SWM211x8</Device>
           <Vendor>Synwit</Vendor>
-          <PackID>Synwit.SWM32_DFP.2.0.0</PackID>
+          <PackID>Synwit.SWM32_DFP.2.0.8</PackID>
           <PackURL>http://www.synwit.com/pack</PackURL>
           <Cpu>CLOCK(12000000) CPUTYPE("Cortex-M0") ESEL ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
@@ -894,7 +895,7 @@
             <wLevel>0</wLevel>
             <uThumb>0</uThumb>
             <uSurpInc>0</uSurpInc>
-            <uC99>0</uC99>
+            <uC99>1</uC99>
             <uGnu>0</uGnu>
             <useXO>0</useXO>
             <v6Lang>1</v6Lang>

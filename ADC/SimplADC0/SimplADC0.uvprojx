@@ -16,7 +16,7 @@
         <TargetCommonOption>
           <Device>SWM201x6</Device>
           <Vendor>Synwit</Vendor>
-          <PackID>Synwit.SWM32_DFP.2.0.4</PackID>
+          <PackID>Synwit.SWM32_DFP.2.0.8</PackID>
           <PackURL>http://www.synwit.com/pack</PackURL>
           <Cpu>CLOCK(12000000) CPUTYPE("Cortex-M0") ESEL ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
@@ -325,7 +325,7 @@
             <wLevel>0</wLevel>
             <uThumb>0</uThumb>
             <uSurpInc>0</uSurpInc>
-            <uC99>0</uC99>
+            <uC99>1</uC99>
             <uGnu>0</uGnu>
             <useXO>0</useXO>
             <v6Lang>1</v6Lang>
@@ -581,7 +581,7 @@
         <TargetCommonOption>
           <Device>SWM211x8</Device>
           <Vendor>Synwit</Vendor>
-          <PackID>Synwit.SWM32_DFP.2.0.4</PackID>
+          <PackID>Synwit.SWM32_DFP.2.0.8</PackID>
           <PackURL>http://www.synwit.com/pack</PackURL>
           <Cpu>CLOCK(12000000) CPUTYPE("Cortex-M0") ESEL ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
@@ -646,7 +646,7 @@
           </BeforeMake>
           <AfterMake>
             <RunUserProg1>1</RunUserProg1>
-            <RunUserProg2>0</RunUserProg2>
+            <RunUserProg2>1</RunUserProg2>
             <UserProg1Name>fromelf --bin -o "$L@L.bin" "#L"</UserProg1Name>
             <UserProg2Name>fromelf --text -a -c -o "$L@L.asm" "#L"</UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
@@ -890,7 +890,7 @@
             <wLevel>0</wLevel>
             <uThumb>0</uThumb>
             <uSurpInc>0</uSurpInc>
-            <uC99>0</uC99>
+            <uC99>1</uC99>
             <uGnu>0</uGnu>
             <useXO>0</useXO>
             <v6Lang>1</v6Lang>

@@ -10,11 +10,13 @@
       <TargetName>SWM201</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
-      <uAC6>8</uAC6>
+      <uAC6>0</uAC6>
       <TargetOption>
         <TargetCommonOption>
           <Device>SWM201x6</Device>
           <Vendor>Synwit</Vendor>
+          <PackID>Synwit.SWM32_DFP.2.0.8</PackID>
+          <PackURL>http://www.synwit.com/pack</PackURL>
           <Cpu>CLOCK(12000000) CPUTYPE("Cortex-M0") ESEL ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
           <StartupFile></StartupFile>
@@ -30,7 +32,7 @@
           <SLE66CMisc></SLE66CMisc>
           <SLE66AMisc></SLE66AMisc>
           <SLE66LinkerMisc></SLE66LinkerMisc>
-          <SFDFile></SFDFile>
+          <SFDFile>$$Device:SWM201x6$SVD\SWM201.svd</SFDFile>
           <bCustSvd>0</bCustSvd>
           <UseEnv>0</UseEnv>
           <BinPath></BinPath>
@@ -46,7 +48,7 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>.\out\</OutputDirectory>
-          <OutputName>SimplSLEEP_PinWakeup</OutputName>
+          <OutputName>SimplLIN_Slave</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>0</CreateHexFile>
@@ -78,7 +80,7 @@
           </BeforeMake>
           <AfterMake>
             <RunUserProg1>1</RunUserProg1>
-            <RunUserProg2>1</RunUserProg2>
+            <RunUserProg2>0</RunUserProg2>
             <UserProg1Name>fromelf --bin -o "$L@L.bin" "#L"</UserProg1Name>
             <UserProg2Name>fromelf --text -a -c -o "$L@L.asm" "#L"</UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
@@ -334,7 +336,7 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>CHIP_SWM201 </Define>
+              <Define>CHIP_SWM201</Define>
               <Undefine></Undefine>
               <IncludePath>..\..\SWM2X1_StdPeriph_Driver\CSL\CMSIS\CoreSupport;..\..\SWM2X1_StdPeriph_Driver\CSL\CMSIS\DeviceSupport;..\..\SWM2X1_StdPeriph_Driver\CSL\SWM2X1_StdPeriph_Driver</IncludePath>
             </VariousControls>
@@ -367,7 +369,7 @@
             <TextAddressRange>0x00000000</TextAddressRange>
             <DataAddressRange>0x00000000</DataAddressRange>
             <pXoBase></pXoBase>
-            <ScatterFile>.\APP\SimplSLEEP_PinWakeup.sct</ScatterFile>
+            <ScatterFile></ScatterFile>
             <IncludeLibs></IncludeLibs>
             <IncludeLibsPath></IncludeLibsPath>
             <Misc></Misc>
@@ -439,11 +441,6 @@
               <FileName>SWM2X1_rtc.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\SWM2X1_StdPeriph_Driver\CSL\SWM2X1_StdPeriph_Driver\SWM2X1_rtc.c</FilePath>
-            </File>
-            <File>
-              <FileName>SWM2X1_sleep.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\SWM2X1_StdPeriph_Driver\CSL\SWM2X1_StdPeriph_Driver\SWM2X1_sleep.c</FilePath>
             </File>
             <File>
               <FileName>SWM201_flash.c</FileName>
@@ -616,10 +613,10 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>.\out\</OutputDirectory>
-          <OutputName>SimplSLEEP_PinWakeup</OutputName>
+          <OutputName>SimplLIN_Slave</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
-          <CreateHexFile>0</CreateHexFile>
+          <CreateHexFile>1</CreateHexFile>
           <DebugInformation>1</DebugInformation>
           <BrowseInformation>1</BrowseInformation>
           <ListingPath>.\out\</ListingPath>
@@ -937,7 +934,7 @@
             <TextAddressRange>0x00000000</TextAddressRange>
             <DataAddressRange>0x00000000</DataAddressRange>
             <pXoBase></pXoBase>
-            <ScatterFile>.\APP\SimplSLEEP_PinWakeup.sct</ScatterFile>
+            <ScatterFile></ScatterFile>
             <IncludeLibs></IncludeLibs>
             <IncludeLibsPath></IncludeLibsPath>
             <Misc></Misc>
@@ -1009,11 +1006,6 @@
               <FileName>SWM2X1_rtc.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\SWM2X1_StdPeriph_Driver\CSL\SWM2X1_StdPeriph_Driver\SWM2X1_rtc.c</FilePath>
-            </File>
-            <File>
-              <FileName>SWM2X1_sleep.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\SWM2X1_StdPeriph_Driver\CSL\SWM2X1_StdPeriph_Driver\SWM2X1_sleep.c</FilePath>
             </File>
             <File>
               <FileName>SWM201_flash.c</FileName>
