@@ -275,6 +275,8 @@ typedef struct {
 #define SYS_PRSTR0_PWM_Msk			(0x01 <<SYS_PRSTR0_PWM_Pos)
 #define SYS_PRSTR0_SPI0_Pos			13
 #define SYS_PRSTR0_SPI0_Msk			(0x01 <<SYS_PRSTR0_SPI0_Pos)
+#define SYS_PRSTR0_SPI1_Pos			14
+#define SYS_PRSTR0_SPI1_Msk			(0x01 <<SYS_PRSTR0_SPI1_Pos)
 #define SYS_PRSTR0_I2C0_Pos			15
 #define SYS_PRSTR0_I2C0_Msk			(0x01 <<SYS_PRSTR0_I2C0_Pos)
 #define SYS_PRSTR0_CORDIC_Pos		20
@@ -285,6 +287,8 @@ typedef struct {
 #define SYS_PRSTR0_ANAC_Msk			(0x01 <<SYS_PRSTR0_ANAC_Pos)
 #define SYS_PRSTR0_ADC0_Pos			26
 #define SYS_PRSTR0_ADC0_Msk			(0x01 <<SYS_PRSTR0_ADC0_Pos)
+#define SYS_PRSTR0_CAN0_Pos			28
+#define SYS_PRSTR0_CAN0_Msk			(0x01 <<SYS_PRSTR0_CAN0_Pos)
 
 #define SYS_PRSTR1_IOFILT_Pos		20
 #define SYS_PRSTR1_IOFILT_Msk		(0x01 <<SYS_PRSTR1_IOFILT_Pos)
