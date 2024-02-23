@@ -322,7 +322,7 @@ uint32_t CAN_RXDataAvailable(CAN_TypeDef * CANx)
 ******************************************************************************************************************************************/
 void CAN_SetBaudrate(CAN_TypeDef * CANx, uint32_t baudrate, uint32_t CAN_bs1, uint32_t CAN_bs2, uint32_t CAN_sjw)
 {
-	uint32_t brp = SystemCoreClock/2/baudrate/(1 + (CAN_bs1 + 1) + (CAN_bs2 + 1)) - 1;
+	uint32_t brp = (SystemCoreClock/2)/2/baudrate/(1 + (CAN_bs1 + 1) + (CAN_bs2 + 1)) - 1;
 	
 	CANx->BT1 = (0 << CAN_BT1_SAM_Pos) |
 				(CAN_bs1 << CAN_BT1_TSEG1_Pos) |
