@@ -30,12 +30,14 @@ int main(void)
 				  (1 << SYS_OPACR_OPA2MD_Pos) |		// OPA2工作于PGA模式
 				  (1 << SYS_OPACR_OPA3MD_Pos);		// OPA3工作于PGA模式
 	
-	SYS->PGACR = (0 << SYS_PGACR_OPA1GN_Pos) |		// PGA1增益反馈电阻：10K
-				 (0 << SYS_PGACR_OPA2GN_Pos) |		// PGA2增益反馈电阻：10K
-				 (0 << SYS_PGACR_OPA3GN_Pos) |		// PGA3增益反馈电阻：10K
-				 (0 << SYS_PGACR_OPA1SW_Pos) |		// PGA1输出滤波电阻：1K
-				 (0 << SYS_PGACR_OPA2SW_Pos) |		// PGA2输出滤波电阻：1K
-				 (0 << SYS_PGACR_OPA3SW_Pos);		// PGA3输出滤波电阻：1K
+	SYS->PGACR &= ~(SYS_PGACR_OPA1GN_Msk | SYS_PGACR_OPA2GN_Msk | SYS_PGACR_OPA3GN_Msk |
+					SYS_PGACR_OPA1SW_Msk | SYS_PGACR_OPA2SW_Msk | SYS_PGACR_OPA3SW_Msk);
+	SYS->PGACR |= (0 << SYS_PGACR_OPA1GN_Pos) |		// PGA1增益反馈电阻：10K
+				  (0 << SYS_PGACR_OPA2GN_Pos) |		// PGA2增益反馈电阻：10K
+				  (0 << SYS_PGACR_OPA3GN_Pos) |		// PGA3增益反馈电阻：10K
+				  (0 << SYS_PGACR_OPA1SW_Pos) |		// PGA1输出滤波电阻：1K
+				  (0 << SYS_PGACR_OPA2SW_Pos) |		// PGA2输出滤波电阻：1K
+				  (0 << SYS_PGACR_OPA3SW_Pos);		// PGA3输出滤波电阻：1K
 	
 	while(1==1)
 	{
