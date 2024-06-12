@@ -52,12 +52,8 @@
 
 #define PLL_FB_DIV		30
 
-
-#define PLL_OUT_DIV8	0
-#define PLL_OUT_DIV4	1
-#define PLL_OUT_DIV2	2
-
 #define PLL_OUT_DIV		PLL_OUT_DIV8
+
 
 
 uint32_t SystemCoreClock  = __HSI;   				//System Clock Frequency (Core Clock)
@@ -73,6 +69,8 @@ uint32_t CyclesPerUs      = (__HSI / 1000000); 		//Cycles per micro second
 ******************************************************************************************************************************************/
 void SystemCoreClockUpdate(void)    
 {
+	uint32_t indiv, fbdiv, outdiv;
+	
 	if(SYS->CLKSEL & SYS_CLKSEL_SYS_Msk)			//SYS  <= HRC
 	{
 		SystemCoreClock = __HSI;
@@ -95,7 +93,11 @@ void SystemCoreClockUpdate(void)
 				SystemCoreClock = __HSE;
 			}
 			
-			SystemCoreClock = SystemCoreClock / PLL_IN_DIV * PLL_FB_DIV * 4 / (2 << (2 - PLL_OUT_DIV));
+			indiv  = (SYS->PLLDIV & SYS_PLLDIV_INDIV_Msk)  >> SYS_PLLDIV_INDIV_Pos;
+			fbdiv  = (SYS->PLLDIV & SYS_PLLDIV_FBDIV_Msk)  >> SYS_PLLDIV_FBDIV_Pos;
+			outdiv = (SYS->PLLDIV & SYS_PLLDIV_OUTDIV_Msk) >> SYS_PLLDIV_OUTDIV_Pos;
+			
+			SystemCoreClock = SystemCoreClock / indiv * fbdiv * 4 / (2 << (2 - outdiv));
 			break;
 		
 		case 3:
@@ -148,11 +150,11 @@ void SystemInit(void)
 			break;
 		
 		case SYS_CLK_PLL:
-			switchToPLL(0);
+			switchToPLL(SYS_PLL_SRC == SYS_CLK_XTAL, PLL_IN_DIV, PLL_FB_DIV, PLL_OUT_DIV, 0);
 			break;
 		
 		case SYS_CLK_PLL_DIV8:
-			switchToPLL(1);
+			switchToPLL(SYS_PLL_SRC == SYS_CLK_XTAL, PLL_IN_DIV, PLL_FB_DIV, PLL_OUT_DIV, 1);
 			break;
 
 		case SYS_CLK_32KHz:
@@ -162,7 +164,7 @@ void SystemInit(void)
 	
 	SystemCoreClockUpdate();
 	
-	Flash_Param_at_xMHz(SystemCoreClock/1000000);
+	Flash_Param_at_xMHz(CyclesPerUs);
 	
 	FMC->CACHE = (1 << FMC_CACHE_CEN_Pos) | (1 << FMC_CACHE_CCLR_Pos);	// 清除 Cache
 	__NOP(); __NOP(); __NOP(); __NOP(); __NOP(); __NOP(); __NOP();
@@ -211,7 +213,7 @@ void switchToXTAL(uint32_t div8)
 	PORT_Init(PORTB, PIN11, PORTB_PIN11_XTAL_IN,  0);
 	PORT_Init(PORTB, PIN12, PORTB_PIN12_XTAL_OUT, 0);
 	SYS->XTALCR |= (1 << SYS_XTALCR_ON_Pos) | (7 << SYS_XTALCR_DRV_Pos) | (1 << SYS_XTALCR_DET_Pos);
-	for(i = 0; i < 1000; i++) __NOP();
+	for(i = 0; i < 10000; i++) __NOP();
 	
 	SYS->CLKDIVx_ON = 1;
 	
@@ -224,11 +226,40 @@ void switchToXTAL(uint32_t div8)
 	SYS->CLKSEL &=~(1 << SYS_CLKSEL_SYS_Pos);		//SYS <= XTAL
 }
 
-void switchToPLL(uint32_t div8)
+void switchToPLL(uint32_t clksrc_xtal, uint32_t indiv, uint32_t fbdiv, uint32_t outdiv, uint32_t div8)
 {
 	switchTo12MHz();
 	
-	PLLInit();
+	if(clksrc_xtal == 0)
+	{
+		SYS->HRCCR = (1 << SYS_HRCCR_ON_Pos) |
+					 (0 << SYS_HRCCR_DBL_Pos);		//HRC = 12Hz
+		
+		SYS->PLLCR |= (1 << SYS_PLLCR_INSEL_Pos);	//PLL_SRC <= HRC
+	}
+	else
+	{
+		PORTB->PULLU &= ~((1 << PIN11) | (1 << PIN12));
+		PORTB->PULLD &= ~((1 << PIN11) | (1 << PIN12));
+		PORT_Init(PORTB, PIN11, PORTB_PIN11_XTAL_IN,  0);
+		PORT_Init(PORTB, PIN12, PORTB_PIN12_XTAL_OUT, 0);
+		SYS->XTALCR |= (1 << SYS_XTALCR_ON_Pos) | (7 << SYS_XTALCR_DRV_Pos) | (1 << SYS_XTALCR_DET_Pos);
+		
+		SYS->PLLCR &= ~(1 << SYS_PLLCR_INSEL_Pos);	//PLL_SRC <= XTAL
+	}
+	
+	SYS->PLLDIV &= ~(SYS_PLLDIV_INDIV_Msk |
+					 SYS_PLLDIV_FBDIV_Msk |
+					 SYS_PLLDIV_OUTDIV_Msk);
+	SYS->PLLDIV |= (indiv  << SYS_PLLDIV_INDIV_Pos) |
+				   (fbdiv  << SYS_PLLDIV_FBDIV_Pos) |
+				   (outdiv << SYS_PLLDIV_OUTDIV_Pos);
+	
+	SYS->PLLCR &= ~(1 << SYS_PLLCR_OFF_Pos);
+	
+	while(SYS->PLLLOCK == 0);		//等待PLL锁定
+	
+	SYS->PLLCR |= (1 << SYS_PLLCR_OUTEN_Pos);
 	
 	SYS->CLKDIVx_ON = 1;
 	
@@ -255,42 +286,4 @@ void switchTo32KHz(void)
 	SYS->CLKSEL &=~(1 << SYS_CLKSEL_CLK_DIVx_Pos);
 
 	SYS->CLKSEL &=~(1 << SYS_CLKSEL_SYS_Pos);		//SYS <= LRC
-}
-
-
-void PLLInit(void)
-{
-	uint32_t i;
-	
-	if(SYS_PLL_SRC == SYS_CLK_12MHz)
-	{
-		SYS->HRCCR = (1 << SYS_HRCCR_ON_Pos) |
-					 (0 << SYS_HRCCR_DBL_Pos);		//HRC = 12Hz
-		
-		SYS->PLLCR |= (1 << SYS_PLLCR_INSEL_Pos);	//PLL_SRC <= HRC
-	}
-	else if(SYS_PLL_SRC == SYS_CLK_XTAL)
-	{
-		PORTB->PULLU &= ~((1 << PIN11) | (1 << PIN12));
-		PORTB->PULLD &= ~((1 << PIN11) | (1 << PIN12));
-		PORT_Init(PORTB, PIN11, PORTB_PIN11_XTAL_IN,  0);
-		PORT_Init(PORTB, PIN12, PORTB_PIN12_XTAL_OUT, 0);
-		SYS->XTALCR |= (1 << SYS_XTALCR_ON_Pos) | (7 << SYS_XTALCR_DRV_Pos) | (1 << SYS_XTALCR_DET_Pos);
-		for(i = 0; i < 1000; i++) __NOP();
-		
-		SYS->PLLCR &= ~(1 << SYS_PLLCR_INSEL_Pos);	//PLL_SRC <= XTAL
-	}
-	
-	SYS->PLLDIV &= ~(SYS_PLLDIV_INDIV_Msk |
-					 SYS_PLLDIV_FBDIV_Msk |
-					 SYS_PLLDIV_OUTDIV_Msk);
-	SYS->PLLDIV |= (PLL_IN_DIV << SYS_PLLDIV_INDIV_Pos) |
-				   (PLL_FB_DIV << SYS_PLLDIV_FBDIV_Pos) |
-				   (PLL_OUT_DIV<< SYS_PLLDIV_OUTDIV_Pos);
-	
-	SYS->PLLCR &= ~(1 << SYS_PLLCR_OFF_Pos);
-	
-	while(SYS->PLLLOCK == 0);		//等待PLL锁定
-	
-	SYS->PLLCR |= (1 << SYS_PLLCR_OUTEN_Pos);
 }
