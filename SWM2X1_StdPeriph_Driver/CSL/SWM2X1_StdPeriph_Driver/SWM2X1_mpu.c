@@ -61,27 +61,32 @@ static uint32_t MPU_IsBusy(MPU_TypeDef * MPUx)
 void MPU_WR_REG(MPU_TypeDef * MPUx, uint16_t reg)
 {
 	MPUx->IR = reg;
+	__NOP(); __NOP(); __NOP();
 	while(MPU_IsBusy(MPUx)) __NOP();
 }
 
 void MPU_WR_DATA(MPU_TypeDef * MPUx, uint16_t val)
 {
 	MPUx->DR = val;
+	__NOP(); __NOP(); __NOP();
 	while(MPU_IsBusy(MPUx)) __NOP();
 }
 
 void MPU_WriteReg(MPU_TypeDef * MPUx, uint16_t reg, uint16_t val)
 {
 	MPUx->IR = reg;
+	__NOP(); __NOP(); __NOP();
 	while(MPU_IsBusy(MPUx)) __NOP();
 	
 	MPUx->DR = val;
+	__NOP(); __NOP(); __NOP();
 	while(MPU_IsBusy(MPUx)) __NOP();
 }
 
 uint16_t MPU_ReadReg(MPU_TypeDef * MPUx, uint16_t reg)
 {
 	MPUx->IR = reg;
+	__NOP(); __NOP(); __NOP();
 	while(MPU_IsBusy(MPUx)) __NOP();
 	
 	return MPUx->DR;
