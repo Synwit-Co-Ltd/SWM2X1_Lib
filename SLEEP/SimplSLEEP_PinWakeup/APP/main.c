@@ -37,7 +37,7 @@ int main(void)
 		SYS->PAWKSR |= (1 << PIN4);							//Çå³ý»½ÐÑ×´Ì¬
 		
 #if defined(CHIP_SWM211)
-		switchToPLL(0);		//»½ÐÑºóÇÐ»»µ½PLLÊ±ÖÓ
+		switchToPLL(0, 3, 30, PLL_OUT_DIV8, 0);		//»½ÐÑºóÇÐ»»µ½PLLÊ±ÖÓ
 #endif
 	}
 }
