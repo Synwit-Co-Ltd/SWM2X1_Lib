@@ -37,13 +37,13 @@ uint32_t FLASH_Erase(uint32_t addr)
 {
 	if(addr >= 32*1024) return FLASH_RES_ERR;
 	
-	__disable_irq();
+	uint32_t primask = SW_enter_critical();
 	
 	FMC->ERASE = FMC_ERASE_REQ_Msk | ((addr >> 9) << FMC_ERASE_PAGE_Pos);
 	__NOP();__NOP();__NOP();__NOP();__NOP();__NOP();__NOP();
 	while(FMC->STAT & FMC_STAT_ERASEBUSY_Msk) __NOP();
 	
-	__enable_irq();
+	SW_exit_critical(primask);
 	
 	return FLASH_RES_OK;
 }
@@ -69,7 +69,7 @@ uint32_t FLASH_Write(uint32_t addr, uint32_t buff[], uint32_t cnt)
 	
 	if(addr/512 != (addr+(cnt-1)*4)/512) return FLASH_RES_ERR;	// ¿çÒ³
 	
-	__disable_irq();
+	uint32_t primask = SW_enter_critical();
 	
 	FMC->ADDR = (1u << FMC_ADDR_WREN_Pos) | (addr << FMC_ADDR_ADDR_Pos);
 	for(i = 0; i < cnt; i++)
@@ -81,7 +81,7 @@ uint32_t FLASH_Write(uint32_t addr, uint32_t buff[], uint32_t cnt)
 	
 	FMC->ADDR = 0;
 	
-	__enable_irq();
+	SW_exit_critical(primask);
 	
 	return FLASH_RES_OK;
 }

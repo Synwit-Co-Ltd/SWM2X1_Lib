@@ -245,11 +245,11 @@ void ADC_Start(ADC_TypeDef * ADCx)
 {
 #if defined(CHIP_SWM201)
 
-	__disable_irq();
+	uint32_t primask = SW_enter_critical();
 	ADCx->CTRL &= ~ADC_CTRL_TRIG_Msk;
 	ADCx->START = (0x01 << ADC_START_GO_Pos);
 	ADCx->CTRL |= (ADC_TRIGGER_SW << ADC_CTRL_TRIG_Pos);
-	__enable_irq();
+	SW_exit_critical(primask);
 
 #elif defined(CHIP_SWM211)
 

@@ -256,7 +256,7 @@ void W25N01G_Read_4bit_DMA(uint32_t addr, uint8_t buff[2048])
 	
 	W25N01G_Assert();
 	
-	__disable_irq();
+	uint32_t primask = SW_enter_critical();
 	
 	SPI_Write(SPI0, (W25N_CMD_FAST_READ_4bit << 24) | 0x000000);
 	while(SPI_IsRXEmpty(SPI0)) __NOP();
@@ -264,7 +264,7 @@ void W25N01G_Read_4bit_DMA(uint32_t addr, uint8_t buff[2048])
 	
 	SPI0->CTRL |= (1 << SPI_CTRL_DMARXEN_Pos);
 	
-	__enable_irq();
+	SW_exit_critical(primask);
 	
 	while(DMA_CH_INTStat(DMA_CH1, DMA_IT_DONE) == 0) __NOP();
 	DMA_CH_INTClr(DMA_CH1, DMA_IT_DONE);
