@@ -9,7 +9,7 @@ char RX_Buffer[BUF_SIZE] = {0};
 void SerialInit(void);
 
 int main(void)
-{	
+{
 	SPI_InitStructure SPI_initStruct;
 	DMA_InitStructure DMA_initStruct;
 	
@@ -70,30 +70,29 @@ int main(void)
 	
 	while(1==1)
 	{
+		SW_DelayMS(500);
+		
+		DMA_CH_Open(DMA_CH0);	// 重新开始，再次搬运
 	}
 }
 
 
 void GPIOB1_GPIOA9_DMA_Handler(void)
 {
-	uint32_t i;
-	
 	if(DMA_CH_INTStat(DMA_CH0, DMA_IT_DONE))
 	{
 		DMA_CH_INTClr(DMA_CH0, DMA_IT_DONE);
-		
-		for(i = 0; i < SystemCoreClock/4; i++)  __NOP();		// 延时一会儿
-		
-		DMA_CH_Open(DMA_CH0);	// 重新开始，再次搬运
 	}
 	else if(DMA_CH_INTStat(DMA_CH1, DMA_IT_DONE))
 	{
 		DMA_CH_INTClr(DMA_CH1, DMA_IT_DONE);
 		
-		for(i = 0; i < BUF_SIZE; i++)  printf("%c", RX_Buffer[i]);
+		char rx_buffer[BUF_SIZE] = {0};
+		memcpy(rx_buffer, RX_Buffer, BUF_SIZE);
 		
-		memset(RX_Buffer, 0x00, sizeof(RX_Buffer));
 		DMA_CH_Open(DMA_CH1);	// 重新开始，再次搬运
+		
+		for(int i = 0; i < BUF_SIZE; i++) printf("%c", rx_buffer[i]);
 	}
 }
 
