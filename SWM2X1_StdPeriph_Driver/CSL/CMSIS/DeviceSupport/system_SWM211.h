@@ -27,6 +27,9 @@ extern void switchToPLL(uint32_t clksrc_xtal, uint32_t indiv, uint32_t fbdiv, ui
 extern void switchTo32KHz(void);
 
 
+void SW_DelayUS(uint32_t us);
+void SW_DelayMS(uint32_t ms);
+
 #ifdef __cplusplus
 }
 #endif
